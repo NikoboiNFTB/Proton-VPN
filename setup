@@ -80,6 +80,7 @@ sed -i "s|Exec=$REAL_HOME|Exec=\$HOME|g" "$DESKTOP_FILE"
 
 
 
+
 # Hang
 
 KEEP_OPEN=true

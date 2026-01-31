@@ -2,7 +2,7 @@
 
 set -e
 
-COUNTRY="fi"   # change this to whatever country code you want
+COUNTRY="US"   # change this to whatever country code you want
 
 if protonvpn connect "$COUNTRY" >/dev/null 2>&1; then
     notify-send "Proton VPN connected to $COUNTRY."

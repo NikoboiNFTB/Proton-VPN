@@ -5,4 +5,4 @@ Comment=Connect to Proton VPN
 Exec=$HOME/GitHub/NikoboiNFTB/Proton-VPN/connect
 Icon=/usr/share/icons/Proton AG/vpn.svg
 Terminal=false
-Categories=Network;Security;
+Categories=Network;
