@@ -37,20 +37,20 @@ echo
 
 # Make icons folder
 echo "Making icons directory..."
-mkdir -p $ICONS_DIR || echo "Failed to create directory!"
+sudo mkdir -p "$ICONS_DIR/" || echo "Failed to create directory!"
 echo "Icons directory made."
 
 echo
 
 # Grab Proton SVG files
 echo "Downloading Proton icons..."
-wget -qO $ICONS_DIR/vpn.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fvpn_f9embt.svg"
-wget -qO $ICONS_DIR/mail.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fmail_xxy4bg.svg"
-wget -qO $ICONS_DIR/calendar.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fcalendar_ylg2jq.svg"
-wget -qO $ICONS_DIR/drive.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fdrive_wo2nx4.svg"
-wget -qO $ICONS_DIR/docs.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-docs-icon_q9p090.svg"
-wget -qO $ICONS_DIR/pass.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fpass_wl1fk9.svg"
-wget -qO $ICONS_DIR/lumo.svg "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Flumo_k0nljk.svg"
+sudo wget -qO "$ICONS_DIR/vpn.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fvpn_f9embt.svg"
+sudo wget -qO "$ICONS_DIR/mail.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fmail_xxy4bg.svg"
+sudo wget -qO "$ICONS_DIR/calendar.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fcalendar_ylg2jq.svg"
+sudo wget -qO "$ICONS_DIR/drive.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fdrive_wo2nx4.svg"
+sudo wget -qO "$ICONS_DIR/docs.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-docs-icon_q9p090.svg"
+sudo wget -qO "$ICONS_DIR/pass.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fpass_wl1fk9.svg"
+sudo wget -qO "$ICONS_DIR/lumo.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Flumo_k0nljk.svg"
 echo "All Proton icons downloaded."
 
 echo
