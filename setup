@@ -67,6 +67,7 @@ sed -i "s|Exec=\$HOME|Exec=$REAL_HOME|g" "$DESKTOP_FILE_REPO"
 
 
 
+# Copy .desktop files
 
 
 
