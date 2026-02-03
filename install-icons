@@ -11,12 +11,6 @@ if [ -z "$HOME" ]; then
     exit 1
 fi
 
-# Definitions
-REPO_DIR="$HOME/GitHub/NikoboiNFTB/Proton-VPN"
-DESKTOP="$HOME/Desktop"
-DESKTOP_ICON="$DESKTOP/proton-vpn-connect.desktop"
-APPLICATIONS_ICON="/usr/share/applications/proton-vpn-connect.desktop"
-
 # Ask install scope
 read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
 
@@ -61,52 +55,6 @@ done
 wait
 
 echo "All Proton icons downloaded."
-
-
-
-
-
-
-
-
-
-
-
-
-# Check if Proton VPN CLI is installed.
-# if ! command -v protonvpn >/dev/null 2>&1; then
-    # echo "Proton VPN CLI is not installed." >&2
-    # echo "Why are you even running this..." >&2
-    # exit 1
-# fi
-
-
-
-
-
-# Replace $HOME with your actual home
-# sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-# sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-
-# Copy .desktop files
-# echo "Copying .desktop file"
-
-# if [ "$INSTALL_LOCATION" = "root" ]; then
-    # $SUDO_CMD cp "$DESKTOP_ICON" "/usr/share/applications/"
-# else
-    # cp "$DESKTOP_ICON" "$HOME/.local/share/applications/"
-# fi
-
-
-
-
-# Replace your actual home with $HOME
-# sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-# sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-
-
-
-
 
 # Hang
 
