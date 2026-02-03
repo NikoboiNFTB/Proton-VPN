@@ -5,42 +5,34 @@ set -e
 # This is used for the Hang at the end, for disabling it.
 SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
 
-# Check if script is run as su.
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root because icons folder is root." >&2
-    echo "The script runs 'sudo mkdir -p /usr/share/icons/Proton/'" >&2
-    exit 1
-fi
-
 # Ensure $HOME exists
 if [ -z "$HOME" ]; then
     echo "HOME variable not set!"
     exit 1
 fi
 
-# Check if Proton VPN CLI is installed.
-if ! command -v protonvpn >/dev/null 2>&1; then
-    echo "Proton VPN CLI is not installed." >&2
-    echo "Why are you even running this..." >&2
-    exit 1
+# Definitions
+REPO_DIR="$HOME/GitHub/NikoboiNFTB/Proton-VPN"
+DESKTOP="$HOME/Desktop"
+DESKTOP_ICON="$DESKTOP/proton-vpn-connect.desktop"
+APPLICATIONS_ICON="/usr/share/applications/proton-vpn-connect.desktop"
+
+# Ask install scope
+read -r -p "Install as root or user? [user]: " INSTALL_LOCATION
+
+# Set install directory
+if [ "$INSTALL_LOCATION" = "root" ]; then
+    ICONS_DIR="/usr/share/icons/Proton AG"
+    echo "Installing in $ICONS_DIR"
+else
+    ICONS_DIR="$HOME/.local/share/icons/Proton AG"
+    echo "Installing in $ICONS_DIR"
 fi
 
-# Definitions
-ICONS_DIR="/usr/share/icons/Proton AG"
-REPO_DIR="$HOME/GitHub/NikoboiNFTB/Proton-VPN"
-DESKTOP_FILE_REPO="$REPO_DIR/protonvpn.desktop"
-DESKTOP_DIR="$HOME/Desktop"
-DESKTOP_FILE_DESKTOP="$DESKTOP/protonvpn.desktop"
-REAL_HOME="$HOME"
-
-echo
-
 # Make icons folder
-echo "Making icons directory..."
+echo "Making icons directory $ICONS_DIR"
 sudo mkdir -p "$ICONS_DIR/" || echo "Failed to create directory!"
-echo "Icons directory made."
-
-echo
+echo "Icons directory $ICONS_DIR made."
 
 # Grab Proton SVG files
 echo "Downloading Proton icons..."
@@ -56,30 +48,27 @@ sudo wget -qO "$ICONS_DIR/sheets.svg" "https://pmecdn.protonweb.com/image-transf
 sudo wget -qO "$ICONS_DIR/auth.svg" "https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fauthenticator.svg"
 echo "All Proton icons downloaded."
 
-echo
-
-echo "Getting .desktop file"
+# Check if Proton VPN CLI is installed.
+# if ! command -v protonvpn >/dev/null 2>&1; then
+    # echo "Proton VPN CLI is not installed." >&2
+    # echo "Why are you even running this..." >&2
+    # exit 1
+# fi
 
 
 
 
 
 # Replace $HOME with your actual home
-sed -i "s|Icon=\$HOME|Icon=$REAL_HOME|g" "$DESKTOP_FILE_REPO"
-sed -i "s|Exec=\$HOME|Exec=$REAL_HOME|g" "$DESKTOP_FILE_REPO"
-
-
+# sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
+# sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
 
 # Copy .desktop files
-
-
-
+# echo "Getting .desktop file"
 
 # Replace your actual home with $HOME
-sed -i "s|Icon=$REAL_HOME|Icon=\$HOME|g" "$DESKTOP_FILE"
-sed -i "s|Exec=$REAL_HOME|Exec=\$HOME|g" "$DESKTOP_FILE"
-
-
+# sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
+# sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
 
 
 
