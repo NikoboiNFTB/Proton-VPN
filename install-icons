@@ -7,7 +7,7 @@ SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
 
 # Ensure $HOME exists
 if [ -z "$HOME" ]; then
-    echo "HOME variable not set!"
+    echo "❌ HOME variable not set!"
     exit 1
 fi
 
@@ -18,22 +18,22 @@ read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
 if [ "$INSTALL_LOCATION" = "root" ]; then
     ICONS_DIR="/usr/share/icons/Proton AG"
     SUDO_CMD="sudo"
-    echo "Installing in $ICONS_DIR"
+    echo "ℹ️  Installing as root ($ICONS_DIR)"
 else
     ICONS_DIR="$HOME/.local/share/icons/Proton AG"
     SUDO_CMD=""
-    echo "Installing in $ICONS_DIR"
+    echo "ℹ️  Installing as user ($ICONS_DIR)"
 fi
 
 # Make icons folder
 echo
-echo "Making icons directory '$ICONS_DIR'"
-$SUDO_CMD mkdir -p "$ICONS_DIR" || echo "Failed to create directory $ICONS_DIR!"
-echo "Icons directory '$ICONS_DIR' made."
+echo "ℹ️  Creating directory..."
+$SUDO_CMD mkdir -p "$ICONS_DIR" || echo "❌ Failed to create directory $ICONS_DIR!"
+echo "✅ Successfully created icon directory!"
 echo
 
 # Grab Proton SVG files
-echo "Downloading Proton icons..."
+echo "ℹ️  Downloading Proton icons..."
 
 for file_url in \
     "proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg" \
@@ -54,7 +54,7 @@ done
 
 wait
 
-echo "All Proton icons downloaded."
+echo "✅ All Proton icons downloaded."
 
 # Hang
 
