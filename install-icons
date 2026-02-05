@@ -28,12 +28,23 @@ fi
 # Make icons folder
 echo
 echo "ℹ️  Creating directory..."
-$SUDO_CMD mkdir -p "$ICONS_DIR" || echo "❌ Failed to create directory $ICONS_DIR!"
-echo "✅ Successfully created icon directory!"
+if ! $SUDO_CMD mkdir -p "$ICONS_DIR"; then
+    echo "❌ Failed to create directory $ICONS_DIR!"
+    exit 1
+fi
+echo "✅ Successfully created directory!"
 echo
+
+[ -w "$ICONS_DIR" ] && [ -x "$ICONS_DIR" ] || {
+    echo "❌ No write and/or execute permission to $ICONS_DIR"
+    exit 1
+}
 
 # Grab Proton SVG files
 echo "ℹ️  Downloading Proton icons..."
+
+pids=()
+FAILED=0
 
 for file_url in \
     "proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg" \
@@ -49,10 +60,26 @@ for file_url in \
 do
     filename="${file_url%%=*}"
     url="${file_url#*=}"
-    $SUDO_CMD wget -qO "$ICONS_DIR/$filename" "$url" &
+    (
+        if ! $SUDO_CMD wget -qO "$ICONS_DIR/$filename" "$url" 2>/dev/null; then
+            echo "❌ Failed to download $filename (permission denied or write error)"
+            exit 1
+        fi
+    ) &
+    pids+=($!)
 done
 
-wait
+for pid in "${pids[@]}"; do
+    if ! wait "$pid"; then
+        FAILED=1
+    fi
+done
+
+if [ "$FAILED" -ne 0 ]; then
+    echo
+    echo "❌ One or more icons failed to download."
+    exit 1
+fi
 
 echo "✅ All Proton icons downloaded."
 
