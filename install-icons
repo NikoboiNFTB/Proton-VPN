@@ -11,24 +11,42 @@ if [ -z "$HOME" ]; then
     exit 1
 fi
 
-# Ask install scope
-read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
-
-# Set install directory and sudo usage
-if [ "$INSTALL_LOCATION" = "root" ]; then
+if [ "$EUID" -eq 0 ]; then
+    # Already root → no prompt needed
+    echo "ℹ️  Script is running as root."
     ICONS_DIR="/usr/share/icons/Proton AG"
-    SUDO_CMD="sudo"
-    echo "ℹ️  Installing as root ($ICONS_DIR)"
+    echo "ℹ️  Installing system-wide ($ICONS_DIR)"
+
 else
+    echo "ℹ️  Script is running as user."
+    echo
+    read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
+    echo
+
+    if [ "$INSTALL_LOCATION" = "root" ]; then
+        echo "❌ Root install selected, but script is not running as root."
+        echo
+        echo "ℹ️  Please re-run the script as root:"
+        echo
+        echo "  sudo bash $0"
+        echo
+        echo "or:"
+        echo
+        echo "  su -"
+        echo "  <password>"
+        echo "  bash $0"
+        echo
+        exit 1
+    fi
+
     ICONS_DIR="$HOME/.local/share/icons/Proton AG"
-    SUDO_CMD=""
     echo "ℹ️  Installing as user ($ICONS_DIR)"
 fi
 
 # Make icons folder
 echo
 echo "ℹ️  Creating directory..."
-if ! $SUDO_CMD mkdir -p "$ICONS_DIR"; then
+if ! mkdir -p "$ICONS_DIR"; then
     echo "❌ Failed to create directory $ICONS_DIR!"
     exit 1
 fi
@@ -61,7 +79,7 @@ do
     filename="${file_url%%=*}"
     url="${file_url#*=}"
     (
-        if ! $SUDO_CMD wget -qO "$ICONS_DIR/$filename" "$url" 2>/dev/null; then
+        if ! wget -qO "$ICONS_DIR/$filename" "$url" 2>/dev/null; then
             echo "❌ Failed to download $filename (permission denied or write error)"
             exit 1
         fi
@@ -85,7 +103,7 @@ echo "✅ All Proton icons downloaded."
 
 # Hang
 
-KEEP_OPEN=true
+KEEP_OPEN=false
 
 if [ "$KEEP_OPEN" = true ]; then
     echo
