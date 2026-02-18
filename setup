@@ -11,120 +11,38 @@ if [ -z "$HOME" ]; then
     exit 1
 fi
 
-# Ask install scope
-read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
-
-# Set install directory and sudo usage
-if [ "$INSTALL_LOCATION" = "root" ]; then
-    ICONS_DIR="/usr/share/icons/Proton AG"
-    SUDO_CMD="sudo"
-    echo "ℹ️  Installing as root ($ICONS_DIR)"
-else
-    ICONS_DIR="$HOME/.local/share/icons/Proton AG"
-    SUDO_CMD=""
-    echo "ℹ️  Installing as user ($ICONS_DIR)"
-fi
-
-# Make icons folder
-echo
-echo "ℹ️  Creating directory..."
-if ! $SUDO_CMD mkdir -p "$ICONS_DIR"; then
-    echo "❌ Failed to create directory $ICONS_DIR!"
-    exit 1
-fi
-echo "✅ Successfully created directory!"
-echo
-
-[ -w "$ICONS_DIR" ] && [ -x "$ICONS_DIR" ] || {
-    echo "❌ No write and/or execute permission to $ICONS_DIR"
-    exit 1
-}
-
-# Grab Proton SVG files
-echo "ℹ️  Downloading Proton icons..."
-
-pids=()
-FAILED=0
-
-for file_url in \
-    "proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg" \
-    "vpn.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fvpn_f9embt.svg" \
-    "mail.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fmail_xxy4bg.svg" \
-    "calendar.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fcalendar_ylg2jq.svg" \
-    "drive.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fdrive_wo2nx4.svg" \
-    "docs.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-docs-icon_q9p090.svg" \
-    "pass.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fpass_wl1fk9.svg" \
-    "lumo.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Flumo_k0nljk.svg" \
-    "sheets.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-sheets-icon.svg" \
-    "auth.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fauthenticator.svg"
-do
-    filename="${file_url%%=*}"
-    url="${file_url#*=}"
-    (
-        if ! $SUDO_CMD wget -qO "$ICONS_DIR/$filename" "$url" 2>/dev/null; then
-            echo "❌ Failed to download $filename (permission denied or write error)"
-            exit 1
-        fi
-    ) &
-    pids+=($!)
-done
-
-for pid in "${pids[@]}"; do
-    if ! wait "$pid"; then
-        FAILED=1
-    fi
-done
-
-if [ "$FAILED" -ne 0 ]; then
-    echo
-    echo "❌ One or more icons failed to download."
-    exit 1
-fi
-
-echo "✅ All Proton icons downloaded."
-
-
-
-
-
-
-
-
-
+# COMMENTED FOR TESTING PURPOSES
 # Check if Proton VPN CLI is installed.
 # if ! command -v protonvpn >/dev/null 2>&1; then
     # echo "Proton VPN CLI is not installed." >&2
-    # echo "Why are you even running this..." >&2
     # exit 1
 # fi
 
+# Definitions
+REPO_DIR="$HOME/GitHub/NikoboiNFTB/Proton-VPN"
 
-
-
+# Clone repo, update if already present.
+if [ -d "$REPO_DIR" ]; then
+    echo "ℹ️  Cloning repository..."
+    git clone https://github.com/NikoboiNFTB/Proton-VPN "$REPO_DIR"
+else
+    echo "ℹ️  Updating repository..."
+    cd $REPO_DIR
+    git pull
+fi
 
 # Replace $HOME with your actual home
-# sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-# sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
+sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/vpn.desktop"
+sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/vpn.desktop"
 
 # Copy .desktop files
-# echo "Copying .desktop file"
+echo "ℹ️  Copying desktop file..."
 
-# if [ "$INSTALL_LOCATION" = "root" ]; then
-    # $SUDO_CMD cp "$DESKTOP_ICON" "/usr/share/applications/"
-# else
-    # cp "$DESKTOP_ICON" "$HOME/.local/share/applications/"
-# fi
+cp $REPO_DIR/vpn.desktop $HOME/Desktop/vpn.desktop
 
-
-
-
-# Replace your actual home with $HOME
-# sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-# sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/proton-vpn-connect.desktop"
-
-
-
-
+# Change your actual home back to $HOME in repo
+sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/vpn.desktop"
+sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/vpn.desktop"
 
 # Hang
 
