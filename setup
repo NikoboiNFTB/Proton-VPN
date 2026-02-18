@@ -19,16 +19,19 @@ fi
 # fi
 
 # Definitions
-REPO_DIR="$HOME/GitHub/NikoboiNFTB/Proton-VPN"
+USER_NAME=NikoboiNFTB
+REPO_NAME=Proton-VPN
+REPO_DIR="$HOME/GitHub/$USER_NAME/$REPO_NAME"
+DESKTOP_DIR="$HOME/Desktop"
 
 # Clone repo, update if already present.
-if [ -d "$REPO_DIR" ]; then
+if [ -d "$REPO_DIR/.git" ]; then
+    echo "ℹ️  Updating repository..."
+    cd "$REPO_DIR"
+    git pull
+else
     echo "ℹ️  Cloning repository..."
     git clone https://github.com/NikoboiNFTB/Proton-VPN "$REPO_DIR"
-else
-    echo "ℹ️  Updating repository..."
-    cd $REPO_DIR
-    git pull
 fi
 
 # Replace $HOME with your actual home
@@ -38,7 +41,8 @@ sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/vpn.desktop"
 # Copy .desktop files
 echo "ℹ️  Copying desktop file..."
 
-cp $REPO_DIR/vpn.desktop $HOME/Desktop/vpn.desktop
+mkdir -p "$DESKTOP_DIR"
+cp "$REPO_DIR/vpn.desktop" "$DESKTOP_DIR/vpn.desktop"
 
 # Change your actual home back to $HOME in repo
 sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/vpn.desktop"
