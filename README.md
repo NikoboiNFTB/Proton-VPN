@@ -1,6 +1,6 @@
 <div align="center">⚠️ **NOT STABLE RELEASE** ⚠️</div>
 
-# Proton-VPN
+<div align="center"># Proton-VPN</div>
 
 Simple tools for Proton VPN CLI.
 
