@@ -29,9 +29,16 @@ if [ -d "$REPO_DIR/.git" ]; then
     echo "ℹ️  Updating repository..."
     cd "$REPO_DIR"
     git pull
+    echo "✅ Successfully updated repository!"
+elif [ -d "$REPO_DIR" ]; then
+    echo "❌ Repository folder exists, but is not a repository."
+    echo "   (Why do you have that??)"
+    echo "   Please remove or move the directory:"
+    echo "     $REPO_DIR"
 else
     echo "ℹ️  Cloning repository..."
     git clone https://github.com/NikoboiNFTB/Proton-VPN "$REPO_DIR"
+    echo "✅ Successfully cloned repository!"
 fi
 
 # Replace $HOME with your actual home
