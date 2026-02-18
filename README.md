@@ -1,4 +1,4 @@
-<div align="center">⚠️ **NOT STABLE RELEASE** ⚠️</div>
+<div align="center">⚠️ <b>NOT STABLE RELEASE<b> ⚠️</div>
 
 # Proton-VPN
 
