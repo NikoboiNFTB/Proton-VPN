@@ -62,6 +62,9 @@ DESKTOP_FILE="$DESKTOP_DIR/vpn-connect.desktop"
 if [ ! -f "$REPO_FILE" ]; then
     echo "❌ Source desktop file does not exist:"
     echo "   $REPO_FILE"
+    echo "   Recommended: Delete the repository and run the install script again:"
+    echo "     rm -rf '$REPO_DIR'"
+    echo "     bash <(wget -qO- https://nikoboinftb.github.io/shell/proton/setup)"
     exit 1
 fi
 
