@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 # This is used for the Hang at the end, for disabling it.
 SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
@@ -22,24 +22,36 @@ fi
 USER_NAME=NikoboiNFTB
 REPO_NAME=Proton-VPN
 REPO_DIR="$HOME/GitHub/$USER_NAME/$REPO_NAME"
+REPO_URL="https://github.com/$USER_NAME/$REPO_NAME"
 DESKTOP_DIR="$HOME/Desktop"
 
 # Clone repo, update if already present.
 if [ -d "$REPO_DIR/.git" ]; then
     echo "ℹ️  Updating repository..."
-    cd "$REPO_DIR"
-    git pull
-    echo "✅ Successfully updated repository!"
+    if git -C "$REPO_DIR" pull --ff-only; then
+        echo "✅ Successfully updated repository!"
+    else
+        echo "❌ Failed to update repository."
+        exit 1
+    fi
 elif [ -d "$REPO_DIR" ]; then
     echo "❌ Repository folder exists, but is not a repository."
-    echo "   (Why do you have that??)"
-    echo "   Please remove or move the directory:"
+    echo "   Why do you have that??"
+    echo "   Please remove or move:"
     echo "     $REPO_DIR"
+    exit 1
 else
     echo "ℹ️  Cloning repository..."
-    git clone https://github.com/NikoboiNFTB/Proton-VPN "$REPO_DIR"
-    echo "✅ Successfully cloned repository!"
+    mkdir -p "$(dirname "$REPO_DIR")"
+    if git clone "$REPO_URL" "$REPO_DIR"; then
+        echo "✅ Successfully cloned repository!"
+    else
+        echo "❌ Clone failed."
+        exit 1
+    fi
 fi
+
+cd "$REPO_DIR"
 
 # Replace $HOME with your actual home
 sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/vpn-connect.desktop"
