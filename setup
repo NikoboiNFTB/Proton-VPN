@@ -42,18 +42,18 @@ else
 fi
 
 # Replace $HOME with your actual home
-sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/vpn.desktop"
-sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/vpn.desktop"
+sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/vpn-connect.desktop"
+sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/vpn-connect.desktop"
 
 # Copy .desktop files
 echo "ℹ️  Copying desktop file..."
 
 mkdir -p "$DESKTOP_DIR"
-cp "$REPO_DIR/vpn.desktop" "$DESKTOP_DIR/vpn.desktop"
+cp "$REPO_DIR/vpn-connect.desktop" "$DESKTOP_DIR/vpn-connect.desktop"
 
 # Change your actual home back to $HOME in repo
-sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/vpn.desktop"
-sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/vpn.desktop"
+sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/vpn-connect.desktop"
+sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/vpn-connect.desktop"
 
 # Hang
 
