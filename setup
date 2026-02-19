@@ -72,18 +72,14 @@ if \
     cp "$REPO_FILE" "$DESKTOP_FILE"
 then
     echo "✅ Successfully copied desktop file"
-
     # Restore original placeholders in repo
     sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE"
     sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE"
-
 else
     echo "❌ Failed during desktop file preparation or copy"
-
     # Attempt to restore repo file even if something failed
     sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE" 2>/dev/null
     sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE" 2>/dev/null
-
     exit 1
 fi
 
