@@ -28,7 +28,7 @@ DESKTOP_DIR="$HOME/Desktop"
 # Clone repo, update if already present.
 if [ -d "$REPO_DIR/.git" ]; then
     echo "ℹ️  Updating repository..."
-    if git -C "$REPO_DIR" pull --ff-only; then
+    if git -C "$REPO_DIR" pull --ff-only > /dev/null 2>&1; then
         echo "✅ Successfully updated repository!"
     else
         echo "❌ Failed to update repository."
