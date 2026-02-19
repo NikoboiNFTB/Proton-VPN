@@ -53,12 +53,8 @@ fi
 
 cd "$REPO_DIR"
 
-# Replace $HOME with your actual home
-sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_DIR/vpn-connect.desktop"
-sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_DIR/vpn-connect.desktop"
-
 # Copy .desktop file
-echo "ℹ️  Copying desktop file..."
+echo "ℹ️  Preparing desktop file..."
 
 REPO_FILE="$REPO_DIR/vpn-connect.desktop"
 DESKTOP_FILE="$DESKTOP_DIR/vpn-connect.desktop"
@@ -69,16 +65,27 @@ if [ ! -f "$REPO_FILE" ]; then
     exit 1
 fi
 
-if mkdir -p "$DESKTOP_DIR" && cp "$REPO_FILE" "$DESKTOP_FILE"; then
+if \
+    sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_FILE" && \
+    sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_FILE" && \
+    mkdir -p "$DESKTOP_DIR" && \
+    cp "$REPO_FILE" "$DESKTOP_FILE"
+then
     echo "✅ Successfully copied desktop file"
+
+    # Restore original placeholders in repo
+    sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE"
+    sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE"
+
 else
-    echo "❌ Failed to copy desktop file"
+    echo "❌ Failed during desktop file preparation or copy"
+
+    # Attempt to restore repo file even if something failed
+    sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE" 2>/dev/null
+    sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE" 2>/dev/null
+
     exit 1
 fi
-
-# Change your actual home back to $HOME in repo
-sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_DIR/vpn-connect.desktop"
-sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_DIR/vpn-connect.desktop"
 
 # Hang
 
