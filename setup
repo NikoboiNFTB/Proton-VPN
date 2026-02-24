@@ -64,7 +64,7 @@ if [ ! -f "$REPO_FILE" ]; then
     echo "   $REPO_FILE"
     echo "   Recommended: Delete the repository and run the install script again:"
     echo "     rm -rf '$REPO_DIR'"
-    echo "     bash <(wget -qO- https://nikoboinftb.github.io/shell/proton/setup)"
+    echo "     bash <(wget -qO- https://proton.nikoboi.dev/setup)"
     exit 1
 fi
 

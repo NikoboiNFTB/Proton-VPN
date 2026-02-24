@@ -1,5 +1,3 @@
-<div align="center">⚠️ <b>NOT STABLE RELEASE<b> ⚠️</div>
-
 # Proton-VPN
 
 Simple tools for Proton VPN CLI.
@@ -12,7 +10,7 @@ Proton's SVGs are visually superior to their app icons.
 
 ## [`setup`](/setup)
 
-Does something idek anymore.
+Does something idek anymore. Just ignore this one.
 
 ## Contributing
 
