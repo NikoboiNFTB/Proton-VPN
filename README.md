@@ -8,6 +8,14 @@ Install Proton SVG files as user or root, i.e. in `~/.local/share/icons/` or `/u
 
 Proton's SVGs are visually superior to their app icons.
 
+Run the script either from this repo or remotely;
+
+```sh
+bash <(wget -qO- https://proton.nikoboi.dev/install-icons)
+```
+
+>[proton.nikoboi.dev](https://proton.nikoboi.dev/) resolves to this repository.
+
 ## [`setup`](/setup)
 
 Does something idek anymore. Just ignore this one.
