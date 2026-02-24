@@ -1,6 +1,6 @@
 # Proton-VPN
 
-Simple tools for Proton VPN CLI.
+Proton related oddjobs.
 
 ## [`install-icons`](/install-icons)
 
