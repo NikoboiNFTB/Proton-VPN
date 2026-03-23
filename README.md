@@ -14,7 +14,7 @@ Run the script either from this repo or remotely;
 bash <(wget -qO- https://proton.nikoboi.dev/install-icons)
 ```
 
->[proton.nikoboi.dev](https://proton.nikoboi.dev/) resolves to this repository.
+> > [proton.nikoboi.dev](https://proton.nikoboi.dev/) resolves to this repository.
 
 ## [`setup`](/setup)
 
