@@ -7,15 +7,15 @@ SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
 
 # Ensure $HOME exists
 if [ -z "$HOME" ]; then
-    echo "❌ HOME variable not set!"
-    exit 1
+	echo "❌ HOME variable not set!"
+	exit 1
 fi
 
 # COMMENTED FOR TESTING PURPOSES
-# Check if Proton VPN CLI is installed.
+Check if Proton VPN CLI is installed.
 # if ! command -v protonvpn >/dev/null 2>&1; then
-    # echo "Proton VPN CLI is not installed." >&2
-    # exit 1
+	# echo "Proton VPN CLI is not installed." >&2
+	# exit 1
 # fi
 
 # Definitions
@@ -27,28 +27,28 @@ DESKTOP_DIR="$HOME/Desktop"
 
 # Clone repo, update if already present.
 if [ -d "$REPO_DIR/.git" ]; then
-    echo "ℹ️  Updating repository..."
-    if git -C "$REPO_DIR" pull --ff-only > /dev/null 2>&1; then
-        echo "✅ Successfully updated repository!"
-    else
-        echo "❌ Failed to update repository."
-        exit 1
-    fi
+	echo "ℹ️  Updating repository..."
+	if git -C "$REPO_DIR" pull --ff-only >/dev/null 2>&1; then
+		echo "✅ Successfully updated repository!"
+	else
+		echo "❌ Failed to update repository."
+		exit 1
+	fi
 elif [ -d "$REPO_DIR" ]; then
-    echo "❌ Repository folder exists, but is not a repository."
-    echo "   Why do you have that??"
-    echo "   Please remove or move:"
-    echo "     $REPO_DIR"
-    exit 1
+	echo "❌ Repository folder exists, but is not a repository."
+	echo "   Why do you have that??"
+	echo "   Please remove or move:"
+	echo "     $REPO_DIR"
+	exit 1
 else
-    echo "ℹ️  Cloning repository..."
-    mkdir -p "$(dirname "$REPO_DIR")"
-    if git clone "$REPO_URL" "$REPO_DIR"; then
-        echo "✅ Successfully cloned repository!"
-    else
-        echo "❌ Clone failed."
-        exit 1
-    fi
+	echo "ℹ️  Cloning repository..."
+	mkdir -p "$(dirname "$REPO_DIR")"
+	if git clone "$REPO_URL" "$REPO_DIR"; then
+		echo "✅ Successfully cloned repository!"
+	else
+		echo "❌ Clone failed."
+		exit 1
+	fi
 fi
 
 cd "$REPO_DIR"
@@ -60,30 +60,30 @@ REPO_FILE="$REPO_DIR/vpn-connect.desktop"
 DESKTOP_FILE="$DESKTOP_DIR/vpn-connect.desktop"
 
 if [ ! -f "$REPO_FILE" ]; then
-    echo "❌ Source desktop file does not exist:"
-    echo "   $REPO_FILE"
-    echo "   Recommended: Delete the repository and run the install script again:"
-    echo "     rm -rf '$REPO_DIR'"
-    echo "     bash <(wget -qO- https://proton.nikoboi.dev/setup)"
-    exit 1
+	echo "❌ Source desktop file does not exist:"
+	echo "   $REPO_FILE"
+	echo "   Recommended: Delete the repository and run the install script again:"
+	echo "     rm -rf '$REPO_DIR'"
+	echo "     bash <(wget -qO- https://proton.nikoboi.dev/setup)"
+	exit 1
 fi
 
-if \
-    sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_FILE" && \
-    sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_FILE" && \
-    mkdir -p "$DESKTOP_DIR" && \
-    cp "$REPO_FILE" "$DESKTOP_FILE"
+if
+	sed -i "s|Icon=\$HOME|Icon=$HOME|g" "$REPO_FILE" &&
+		sed -i "s|Exec=\$HOME|Exec=$HOME|g" "$REPO_FILE" &&
+		mkdir -p "$DESKTOP_DIR" &&
+		cp "$REPO_FILE" "$DESKTOP_FILE"
 then
-    echo "✅ Successfully copied desktop file"
-    # Restore original placeholders in repo
-    sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE"
-    sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE"
+	echo "✅ Successfully copied desktop file"
+	# Restore original placeholders in repo
+	sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE"
+	sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE"
 else
-    echo "❌ Failed during desktop file preparation or copy"
-    # Attempt to restore repo file even if something failed
-    sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE" 2>/dev/null
-    sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE" 2>/dev/null
-    exit 1
+	echo "❌ Failed during desktop file preparation or copy"
+	# Attempt to restore repo file even if something failed
+	sed -i "s|Icon=$HOME|Icon=\$HOME|g" "$REPO_FILE" 2>/dev/null
+	sed -i "s|Exec=$HOME|Exec=\$HOME|g" "$REPO_FILE" 2>/dev/null
+	exit 1
 fi
 
 # Hang
@@ -91,19 +91,19 @@ fi
 KEEP_OPEN=true
 
 if [ "$KEEP_OPEN" = true ]; then
-    echo
-    read -p "Press 'Enter' to exit / Type 'disable' to disable hanging (local only): " response
-    if [ "$response" = "disable" ]; then
-        sed -i 's/^KEEP_OPEN=true/KEEP_OPEN=false/' "$SCRIPT_PATH"
-        echo
-        echo "KEEP_OPEN set to false"
-        echo "Change 'KEEP_OPEN=true' to enable"
-        echo
-        for i in {5..1}; do
-            echo -n "Exiting in $i..."
-            sleep 1
-            echo -ne "\r"
-        done
-        echo "Exiting now.        "
-    fi
+	echo
+	read -p "Press 'Enter' to exit / Type 'disable' to disable hanging (local only): " response
+	if [ "$response" = "disable" ]; then
+		sed -i 's/^KEEP_OPEN=true/KEEP_OPEN=false/' "$SCRIPT_PATH"
+		echo
+		echo "KEEP_OPEN set to false"
+		echo "Change 'KEEP_OPEN=true' to enable"
+		echo
+		for i in {5..1}; do
+			echo -n "Exiting in $i..."
+			sleep 1
+			echo -ne "\r"
+		done
+		echo "Exiting now.        "
+	fi
 fi

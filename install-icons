@@ -7,55 +7,55 @@ SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
 
 # Ensure $HOME exists
 if [ -z "$HOME" ]; then
-    echo "❌ HOME variable not set!"
-    exit 1
+	echo "❌ HOME variable not set!"
+	exit 1
 fi
 
 if [ "$EUID" -eq 0 ]; then
-    # Already root → no prompt needed
-    echo "ℹ️  Script is running as root."
-    ICONS_DIR="/usr/share/icons/Proton AG"
-    echo "ℹ️  Installing system-wide ($ICONS_DIR)"
+	# Already root → no prompt needed
+	echo "ℹ️  Script is running as root."
+	ICONS_DIR="/usr/share/icons/Proton AG"
+	echo "ℹ️  Installing system-wide ($ICONS_DIR)"
 
 else
-    echo "ℹ️  Script is running as user."
-    echo
-    read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
-    echo
+	echo "ℹ️  Script is running as user."
+	echo
+	read -r -p "Install as 'root' or 'user'? [Default = user]: " INSTALL_LOCATION
+	echo
 
-    if [ "$INSTALL_LOCATION" = "root" ]; then
-        echo "❌ Root install selected, but script is not running as root."
-        echo
-        echo "ℹ️  Please re-run the script as root:"
-        echo
-        echo "  sudo bash $0"
-        echo
-        echo "or:"
-        echo
-        echo "  su -"
-        echo "  <password>"
-        echo "  bash $0"
-        echo
-        exit 1
-    fi
+	if [ "$INSTALL_LOCATION" = "root" ]; then
+		echo "❌ Root install selected, but script is not running as root."
+		echo
+		echo "ℹ️  Please re-run the script as root:"
+		echo
+		echo "  sudo bash $0"
+		echo
+		echo "or:"
+		echo
+		echo "  su -"
+		echo "  <password>"
+		echo "  bash $0"
+		echo
+		exit 1
+	fi
 
-    ICONS_DIR="$HOME/.local/share/icons/Proton AG"
-    echo "ℹ️  Installing as user ($ICONS_DIR)"
+	ICONS_DIR="$HOME/.local/share/icons/Proton AG"
+	echo "ℹ️  Installing as user ($ICONS_DIR)"
 fi
 
 # Make icons folder
 echo
 echo "ℹ️  Creating directory..."
 if ! mkdir -p "$ICONS_DIR"; then
-    echo "❌ Failed to create directory $ICONS_DIR!"
-    exit 1
+	echo "❌ Failed to create directory $ICONS_DIR!"
+	exit 1
 fi
 echo "✅ Successfully created directory!"
 echo
 
 [ -w "$ICONS_DIR" ] && [ -x "$ICONS_DIR" ] || {
-    echo "❌ No write and/or execute permission to $ICONS_DIR"
-    exit 1
+	echo "❌ No write and/or execute permission to $ICONS_DIR"
+	exit 1
 }
 
 # Grab Proton SVG files
@@ -65,38 +65,37 @@ pids=()
 FAILED=0
 
 for file_url in \
-    "proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg" \
-    "vpn.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fvpn_f9embt.svg" \
-    "mail.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fmail_xxy4bg.svg" \
-    "calendar.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fcalendar_ylg2jq.svg" \
-    "drive.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fdrive_wo2nx4.svg" \
-    "docs.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-docs-icon_q9p090.svg" \
-    "pass.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fpass_wl1fk9.svg" \
-    "lumo.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Flumo_k0nljk.svg" \
-    "sheets.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-sheets-icon.svg" \
-    "auth.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fauthenticator.svg"
-do
-    filename="${file_url%%=*}"
-    url="${file_url#*=}"
-    (
-        if ! wget -qO "$ICONS_DIR/$filename" "$url" 2>/dev/null; then
-            echo "❌ Failed to download $filename (permission denied or write error)"
-            exit 1
-        fi
-    ) &
-    pids+=($!)
+	"proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg" \
+	"vpn.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fvpn_f9embt.svg" \
+	"mail.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fmail_xxy4bg.svg" \
+	"calendar.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fcalendar_ylg2jq.svg" \
+	"drive.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fdrive_wo2nx4.svg" \
+	"docs.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-docs-icon_q9p090.svg" \
+	"pass.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fpass_wl1fk9.svg" \
+	"lumo.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Flumo_k0nljk.svg" \
+	"sheets.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fproton-sheets-icon.svg" \
+	"auth.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fauthenticator.svg"; do
+	filename="${file_url%%=*}"
+	url="${file_url#*=}"
+	(
+		if ! wget -qO "$ICONS_DIR/$filename" "$url" 2>/dev/null; then
+			echo "❌ Failed to download $filename (permission denied or write error)"
+			exit 1
+		fi
+	) &
+	pids+=($!)
 done
 
 for pid in "${pids[@]}"; do
-    if ! wait "$pid"; then
-        FAILED=1
-    fi
+	if ! wait "$pid"; then
+		FAILED=1
+	fi
 done
 
 if [ "$FAILED" -ne 0 ]; then
-    echo
-    echo "❌ One or more icons failed to download."
-    exit 1
+	echo
+	echo "❌ One or more icons failed to download."
+	exit 1
 fi
 
 echo "✅ All Proton icons downloaded."
@@ -106,19 +105,19 @@ echo "✅ All Proton icons downloaded."
 KEEP_OPEN=false
 
 if [ "$KEEP_OPEN" = true ]; then
-    echo
-    read -p "Press 'Enter' to exit / Type 'disable' to disable hanging (local only): " response
-    if [ "$response" = "disable" ]; then
-        sed -i 's/^KEEP_OPEN=true/KEEP_OPEN=false/' "$SCRIPT_PATH"
-        echo
-        echo "KEEP_OPEN set to false"
-        echo "Change 'KEEP_OPEN=true' to enable"
-        echo
-        for i in {5..1}; do
-            echo -n "Exiting in $i..."
-            sleep 1
-            echo -ne "\r"
-        done
-        echo "Exiting now.        "
-    fi
+	echo
+	read -p "Press 'Enter' to exit / Type 'disable' to disable hanging (local only): " response
+	if [ "$response" = "disable" ]; then
+		sed -i 's/^KEEP_OPEN=true/KEEP_OPEN=false/' "$SCRIPT_PATH"
+		echo
+		echo "KEEP_OPEN set to false"
+		echo "Change 'KEEP_OPEN=true' to enable"
+		echo
+		for i in {5..1}; do
+			echo -n "Exiting in $i..."
+			sleep 1
+			echo -ne "\r"
+		done
+		echo "Exiting now.        "
+	fi
 fi

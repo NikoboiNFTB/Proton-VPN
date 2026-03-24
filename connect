@@ -3,13 +3,13 @@
 set -e
 
 if [[ -n "$1" ]]; then
-    COUNTRY="$1"
+	COUNTRY="$1"
 else
-    read -r -p "Enter country code: " COUNTRY
+	read -r -p "Enter country code: " COUNTRY
 fi
 
 if protonvpn connect "$COUNTRY" >/dev/null 2>&1; then
-    notify-send "Proton VPN connected to $COUNTRY."
+	notify-send "Proton VPN connected to $COUNTRY."
 else
-    notify-send "Proton VPN failed to connect to $COUNTRY."
+	notify-send "Proton VPN failed to connect to $COUNTRY."
 fi
