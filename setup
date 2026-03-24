@@ -11,12 +11,11 @@ if [ -z "$HOME" ]; then
 	exit 1
 fi
 
-# COMMENTED FOR TESTING PURPOSES
-Check if Proton VPN CLI is installed.
-# if ! command -v protonvpn >/dev/null 2>&1; then
-	# echo "Proton VPN CLI is not installed." >&2
-	# exit 1
-# fi
+# Check if Proton VPN CLI is installed.
+if ! command -v protonvpn >/dev/null 2>&1; then
+	echo "Proton VPN CLI is not installed." >&2
+	exit 1
+fi
 
 # Definitions
 USER_NAME=NikoboiNFTB
