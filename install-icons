@@ -75,7 +75,8 @@ for file_url in \
 	"auth.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fauthenticator.svg" \
 	"meet.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fv1774890277%2Fstatic%2Flogos%2Ficons%2Fmeet.svg" \
 	"lumo.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Flumo_k0nljk.svg" \
-	"proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg"; do
+	"proton.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fstatic%2Flogos%2Ficons%2Fp-purple_mio6jr.svg" \
+	"wallet.svg=https://pmecdn.protonweb.com/image-transformation/?s=c&image=image%2Fupload%2Fv1774890277%2Fstatic%2Flogos%2Ficons%2Fwallet_hnlslt.svg"; do
 	filename="${file_url%%=*}"
 	url="${file_url#*=}"
 	(
