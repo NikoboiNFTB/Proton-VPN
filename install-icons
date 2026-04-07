@@ -72,8 +72,8 @@ while IFS= read -r file_url; do
 		fi
 	) &
 	pids+=($!)
-done <"./links.txt"
-# ^links2.txt has some extra stuff. Feel free to use that.
+done <"./links1.txt"
+# ^links2.txt and links3.txt have some extra stuff. Feel free to use that.
 
 for pid in "${pids[@]}"; do
 	if ! wait "$pid"; then
