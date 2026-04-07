@@ -4,7 +4,7 @@ Proton related oddjobs.
 
 ## [`install-icons`](/install-icons)
 
-Install Proton SVG files as user or root, i.e. in `~/.local/share/icons/` or `/usr/share/icons/`. The folder name `Proton AG` is used for the icons.
+Install Proton SVG files as user or root, i.e. in `~/.local/share/icons/` or `/usr/share/icons/`. The folder name `ProtonAG` is used for the icons.
 
 Proton's SVG files are visually superior to their app icons.
 

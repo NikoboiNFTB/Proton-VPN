@@ -11,7 +11,7 @@ fi
 if [ "$EUID" -eq 0 ]; then
 	# Already root → no prompt needed
 	echo "ℹ️  Script is running as root."
-	ICONS_DIR="/usr/share/icons/Proton AG"
+	ICONS_DIR="/usr/share/icons/ProtonAG"
 	echo "ℹ️  Installing system-wide ($ICONS_DIR)"
 
 else
@@ -36,7 +36,7 @@ else
 		exit 1
 	fi
 
-	ICONS_DIR="$HOME/.local/share/icons/Proton AG"
+	ICONS_DIR="$HOME/.local/share/icons/ProtonAG"
 	echo "ℹ️  Installing as user ($ICONS_DIR)"
 fi
 
